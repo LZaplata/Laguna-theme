@@ -1,0 +1,8 @@
+{
+    "name": "lzaplata/laguna-theme",
+    "type": "october-theme",
+    "description": "Theme for Stachema company branch Laguna from Kol\u00edn.",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}

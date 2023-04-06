@@ -1,0 +1,535 @@
+title = "Dávkování"
+layout = "default"
+url = "/davkovani"
+==
+{% set items = {
+    "dosage": {
+        "title": "Dávkování",
+        "active": true,
+    }
+} %}
+
+{% partial "breadcrumb" items=items %}
+
+<div class="container-fluid pb-5" id="dosage">
+    <div class="container-lg py-xl-4">
+        <h1 class="mb-4 mb-xl-5 col-xl-10 offset-xl-1">
+            {{ this.page.title }}
+        </h1>
+
+        <div class="post-content">
+            <h2 class="h3 text-black">
+                1. Výpočet velikosti bazénu
+            </h2>
+
+            <p>
+                Výpočet objemu je pouze přibližný.
+            </p>
+
+            <div class="list-scrollable">
+                <ul class="nav nav-tabs mt-3 ps-0">
+                    <li class="nav-item">
+                        <a class="nav-link active py-2 px-3 text-decoration-none fw-semibold" href="#kruh" data-bs-toggle="tab">
+                            Kruh
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-3 text-decoration-none fw-semibold" href="#oval" data-bs-toggle="tab">
+                            Ovál
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-3 text-decoration-none fw-semibold" href="#obdelnik" data-bs-toggle="tab">
+                            Obdélník
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-3 text-decoration-none fw-semibold" href="#objem" data-bs-toggle="tab">
+                            Znám objem bazénu
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content volume-container">
+                <div class="tab-pane fade show active py-4" id="kruh">
+                    <div class="row align-items-center g-3">
+                        {% block depth %}
+                            <label for="depth" class="col-form-label col-12 py-0 col-sm-2 col-lg-1">
+                                Hloubka
+                            </label>
+
+                            <div class="col col-sm-auto">
+                                <input type="text" id="depth" class="form-control">
+                            </div>
+
+                            <div class="col-auto">
+                                <span class="form-text">
+                                    m
+                                </span>
+                            </div>
+                        {% endblock %}
+                    </div>
+
+                    <div class="row align-items-center g-3 mt-0">
+                        <label for="average" class="col-form-label col-12 py-0 col-sm-2 col-lg-1">
+                            Průměr
+                        </label>
+
+                        <div class="col col-sm-auto">
+                            <input type="text" id="average" class="form-control">
+                        </div>
+
+                        <div class="col-auto">
+                            <span class="form-text">
+                                m
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade py-4" id="oval">
+                    <div class="row align-items-center g-3">
+                        {{ block("depth") }}
+                    </div>
+
+                    <div class="row align-items-center g-3 mt-0">
+                        {% block length %}
+                            <label for="length" class="col-form-label col-12 py-0 col-sm-2 col-lg-1">
+                                Délka
+                            </label>
+
+                            <div class="col col-sm-auto">
+                                <input type="text" id="length" class="form-control">
+                            </div>
+
+                            <div class="col-auto">
+                                <span class="form-text">
+                                    m
+                                </span>
+                            </div>
+                        {% endblock %}
+                    </div>
+
+                    <div class="row align-items-center g-3 mt-0">
+                        {% block width %}
+                            <label for="width" class="col-form-label col-12 py-0 col-sm-2 col-lg-1">
+                                Šířka
+                            </label>
+
+                            <div class="col col-sm-auto">
+                                <input type="text" id="width" class="form-control">
+                            </div>
+
+                            <div class="col-auto">
+                                <span class="form-text">
+                                    m
+                                </span>
+                            </div>
+                        {% endblock %}
+                    </div>
+                </div>
+
+                <div class="tab-pane fade py-4" id="obdelnik">
+                    <div class="row align-items-center g-3">
+                        {{ block("depth") }}
+                    </div>
+
+                    <div class="row align-items-center g-3 mt-0">
+                        {{ block("length") }}
+                    </div>
+
+                    <div class="row align-items-center g-3 mt-0">
+                        {{ block("width") }}
+                    </div>
+                </div>
+
+                <div class="tab-pane fade py-4" id="objem">
+                    <div class="row align-items-center g-3">
+                        <label for="volume" class="col-form-label col-12 py-0 col-sm-auto">
+                            Objem bazénu
+                        </label>
+
+                        <div class="col col-sm-auto">
+                            <input type="text" id="volume" class="form-control">
+                        </div>
+
+                        <div class="col-auto">
+                            <span class="form-text">
+                                m<sup>3</sup>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="h4 text-black mt-0">
+                Objem bazénu =
+
+                <span class="text-red">
+                    <span class="volume">
+                        0
+                    </span>
+
+                    m<sup>3</sup>
+                </span>
+            </p>
+
+            <h2 class="h3 text-black">
+                2. Volba produktu a dávkování
+            </h2>
+
+            <div class="list-scrollable">
+                <ul class="nav nav-tabs mt-2 ps-0">
+                    <li class="nav-item">
+                        <a class="nav-link active py-2 px-3 text-decoration-none fw-semibold" href="#chlor" data-bs-toggle="tab">
+                            Chlorová dezinfekce
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-3 text-decoration-none fw-semibold" href="#kyslik" data-bs-toggle="tab">
+                            Kyslíková dezinfekce
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-3 text-decoration-none fw-semibold" href="#ph" data-bs-toggle="tab">
+                            Úprava pH
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link py-2 px-3 text-decoration-none fw-semibold" href="#pomoc" data-bs-toggle="tab">
+                            Pomocné produkty
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="tab-content select-container">
+                <div class="tab-pane fade show active py-3" id="chlor">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Rychlá dezinfekce
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Cl [mg/l] <br>
+                                        naměřená hodnota
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Cl [g/l] <br>
+                                        šoková
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Cl [g/l] <br>
+                                        udržovací
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Potřebná dávka <br>
+                                        v gramech
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="chlorine-shock">
+                                    <th class="fs-17">
+                                        Chlor šok
+                                    </th>
+
+                                    <td>
+                                        <input type="text" id="chlorine" class="form-control">
+                                    </td>
+
+                                    <td class="shock text-red fw-bold"></td>
+
+                                    <td class="stable text-red fw-bold"></td>
+
+                                    <td class="grams text-red fw-bold"></td>
+                                </tr>
+
+                                <tr class="blue-arrow">
+                                    <th class="fs-17">
+                                        Modrý šíp
+                                    </th>
+
+                                    <td></td>
+
+                                    <td class="shock text-red fw-bold"></td>
+
+                                    <td class="stable text-red fw-bold"></td>
+
+                                    <td class="grams text-red fw-bold"></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="fw-regular fst-italic fs-13 pt-32" colspan="2">
+                                        Průběžná dezinfekce
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13 pt-32" colspan="3">
+                                        Potřebné množství tablet
+                                    </th>
+                                </tr>
+
+                                <tr class="triplex-mini">
+                                    <th class="fs-17" colspan="2">
+                                        Triplex MINI tablety 20g
+                                    </th>
+
+                                    <td class="amount text-red fw-bold" colspan="3"></td>
+                                </tr>
+
+                                <tr class="chlorine-mini">
+                                    <th class="fs-17" colspan="2">
+                                        Chlorové MINI tablety 20g
+                                    </th>
+
+                                    <td class="amount text-red fw-bold" colspan="3"></td>
+                                </tr>
+
+                                <tr class="triplex">
+                                    <th class="fs-17" colspan="2">
+                                        Triplex tablety 200g
+                                    </th>
+
+                                    <td class="amount text-red fw-bold" colspan="3"></td>
+                                </tr>
+
+                                <tr class="quatro">
+                                    <th class="fs-17" colspan="2">
+                                        Quatro tablety 200g
+                                    </th>
+
+                                    <td class="amount text-red fw-bold" colspan="3"></td>
+                                </tr>
+
+                                <tr class="v61">
+                                    <th class="fs-17" colspan="2">
+                                        6v1 tablety 200g
+                                    </th>
+
+                                    <td class="amount text-red fw-bold" colspan="3"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade py-3" id="kyslik">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Rychlá dezinfekce
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Aktivní kyslík [mg/l] <br>
+                                        naměřená hodnota
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Potřebné množství ml/m<sup>3</sup>
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        V ml
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="oxi-junior">
+                                    <th class="fs-17">
+                                        OXI Junior
+                                    </th>
+
+                                    <td>
+                                        <input type="text" id="oxygen" class="form-control">
+                                    </td>
+
+                                    <td class="amount text-red fw-bold"></td>
+
+                                    <td class="ml text-red fw-bold"></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="fw-regular fst-italic fs-13 pt-32" colspan="2">
+                                        Průběžná dezinfekce
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13 pt-32" colspan="2">
+                                        Potřebné množství tablet
+                                    </th>
+                                </tr>
+
+                                <tr class="oxi-200">
+                                    <th class="fs-17" colspan="2">
+                                        OXI tablety 200g
+                                    </th>
+
+                                    <td class="amount text-red fw-bold" colspan="2"></td>
+                                </tr>
+
+                                <tr class="oxi-20">
+                                    <th class="fs-17" colspan="2">
+                                        OXI tablety MINI 20g
+                                    </th>
+
+                                    <td class="amount text-red fw-bold" colspan="2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade py-3" id="ph">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Naměřená hodnota
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        pH PLUS [g/l]
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        pH MINUS [g/l]
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="ph-plus">
+                                    <td>
+                                        <input type="text" id="ph-input" class="form-control">
+                                    </td>
+
+                                    <td class="plus text-red fw-bold"></td>
+
+                                    <td class="minus text-red fw-bold"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade py-3" id="pomoc">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="fw-regular fst-italic fs-13"></th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Šoková dávka [ml]
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13">
+                                        Udržovací dávka [ml]
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="flokul">
+                                    <th class="fs-17">
+                                        Flokul ultra
+                                    </th>
+
+                                    <td class="shock text-red fw-bold"></td>
+
+                                    <td class="stable text-red fw-bold"></td>
+                                </tr>
+
+                                <tr class="flake-tablets">
+                                    <th class="fs-17">
+                                        Vločkovací tablety
+                                    </th>
+
+                                    <td class="shock text-red fw-bold"></td>
+
+                                    <td class="stable text-red fw-bold"></td>
+                                </tr>
+
+                                <tr class="alg">
+                                    <th class="fs-17">
+                                        ALG blue
+                                    </th>
+
+                                    <td class="shock text-red fw-bold"></td>
+
+                                    <td class="stable text-red fw-bold"></td>
+                                </tr>
+
+                                <tr>
+                                    <th></th>
+
+                                    <th class="fw-regular fst-italic fs-13 pt-32">
+                                        Počáteční dávka [ml]
+                                    </th>
+
+                                    <th class="fw-regular fst-italic fs-13 pt-32">
+                                        Potřebné množství tablet
+                                    </th>
+                                </tr>
+
+                                <tr class="ca">
+                                    <th class="fs-17">
+                                        Ca
+                                    </th>
+
+                                    <td class="shock text-red fw-bold"></td>
+
+                                    <td class="stable text-red fw-bold"></td>
+                                </tr>
+
+                                <tr class="winter">
+                                    <th class="fs-17">
+                                        ZIMA
+                                    </th>
+
+                                    <td class="shock text-red fw-bold"></td>
+
+                                    <td class="stable text-red fw-bold"></td>
+                                </tr>
+
+                                <tr>
+                                    <th></th>
+
+                                    <th class="fw-regular fst-italic fs-13 pt-32" colspan="2">
+                                        Potřebné množství kg
+                                    </th>
+                                </tr>
+
+                                <tr class="salt">
+                                    <th class="fs-17">
+                                        Bazénová sůl
+                                    </th>
+
+                                    <td class="amount text-red fw-bold" colspan="2"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

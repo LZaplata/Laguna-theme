@@ -1,0 +1,44 @@
+@import "custom"
+@import "../../../../lzaplata-stachema/assets/src/sass/theme"
+
+.mi
+    &-logo
+        @include mask-image("logo", 148, 56)
+
+.bg-tertiary
+    &.opacity-55, &.bg-opacity-55
+        opacity: 1 !important
+        background-color: var(--bs-tertiary-55) !important
+
+header
+    .middle
+        padding-top: map-get($spacers, 4) !important
+        padding-bottom: map-get($spacers, 4) !important
+
+        .mi-logo
+            @include media-breakpoint-down(md)
+                width: 145px
+
+.offcanvas
+    .mi-logo
+        width: 95px
+
+.post-content
+    .list-scrollable
+        overflow-x: auto
+
+        ul
+            width: max-content
+            min-width: 100%
+
+    .select-container
+        table
+            tbody
+                tr
+                    td
+                        input
+                            width: 100px
+
+                    td, th
+                        vertical-align: middle
+                        min-width: 100px
