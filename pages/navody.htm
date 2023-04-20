@@ -1,0 +1,38 @@
+url = "/navody"
+layout = "default"
+title = "Návody"
+
+[Files files]
+category = "navody"
+order = "position asc"
+==
+<?php
+use LZaplata\Files\Models\Category;
+
+function onStart() {
+    $categories = Category::all();
+
+    $this["categories"] = $categories;
+}
+?>
+==
+{% set items = {
+    "download": {
+        "title": "Návody",
+        "active": true,
+    }
+} %}
+
+{% partial "breadcrumb" items=items %}
+
+<div class="container-fluid pb-5" id="labs">
+    <div class="container-lg py-xl-4">
+        <h1 class="mb-4 mb-xl-5 col-xl-10 offset-xl-1">
+            {{ this.page.title }}
+        </h1>
+
+        <div class="post-content">
+            {% component "files" %}
+        </div>
+    </div>
+</div>
